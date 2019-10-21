@@ -1,5 +1,6 @@
 package br.com.desafiob2w.starwarapi.resource;
 
+import static org.mockito.Matchers.anyObject;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -43,20 +44,19 @@ public class PlanetaResourceNovoTest {
 	
 	@Test
 	public void incluiNovoPlanetaTest() throws Exception {
-		Planeta plan = new Planeta("4", "planeta4", "clima4", "terreno4", 0);
+		Planeta plan = new Planeta("planeta1", "clima", "terreno");
 		when(planetaService.incluirNovoPlaneta(plan)).thenReturn(planeta());
 		mockMvc.perform(post("/planeta/novo")
 		.contentType(MediaType.APPLICATION_JSON)
 		.content(asJsonString(plan)))
 		.andExpect(status().isOk());
-		
-		verify(planetaService, times(1)).incluirNovoPlaneta(plan);
+		verify(planetaService, times(1)).incluirNovoPlaneta(anyObject());
 		
 	}
 	
 	@Test
 	public void incluiNovoPlanetaTestNotFound() throws Exception {
-		Planeta plan = new Planeta("4","planeta4","clima4", "terreno4", 0);
+		Planeta plan = new Planeta("planeta1","clima", "terreno");
 		when(planetaService.incluirNovoPlaneta(plan)).thenReturn(this.planeta());
 		mockMvc.perform(post("/planeta/")
 		.accept(MediaType.APPLICATION_JSON))
@@ -66,7 +66,7 @@ public class PlanetaResourceNovoTest {
 	
 	@Test
 	public void incluiNovoPlanetaTestBadRequest() throws Exception {
-		Planeta plan = new Planeta("4","planeta4","clima4", "terreno4", 0);
+		Planeta plan = new Planeta("planeta1","clima", "terreno");
 		when(planetaService.incluirNovoPlaneta(plan)).thenReturn(null);
 		mockMvc.perform(post("/planeta/novo"))
 		.andExpect(status().isBadRequest());
@@ -75,7 +75,7 @@ public class PlanetaResourceNovoTest {
 	
 	@Test
 	public void incluiNovoPlanetaTestMethodNotAllowed() throws Exception {
-		Planeta plan = new Planeta("4","planeta4","clima4", "terreno4", 0);
+		Planeta plan = new Planeta("planeta1","clima", "terreno");
 		when(planetaService.incluirNovoPlaneta(plan)).thenReturn(null);
 		mockMvc.perform(post("/planeta/n"))
 		.andExpect(status().isMethodNotAllowed());
@@ -83,8 +83,7 @@ public class PlanetaResourceNovoTest {
 	}
 	
 	public Planeta planeta() {
-		Planeta planeta = new Planeta(
-				"4", "planeta4", "clima4", "terreno4", 0);
+		Planeta planeta = new Planeta("planeta1", "clima", "terreno");
 		return planeta;
 	}
 	

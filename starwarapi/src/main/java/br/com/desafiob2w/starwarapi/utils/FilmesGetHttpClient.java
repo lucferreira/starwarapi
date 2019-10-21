@@ -16,7 +16,7 @@ import org.json.JSONObject;
 
 public class FilmesGetHttpClient {
 	
-	public static String retornarDadosGetRequest(String IdCategoria) throws ClientProtocolException, IOException {
+	public static String retornarDadosGetRequest(Long IdCategoria) throws ClientProtocolException, IOException {
 		
 		CloseableHttpClient httpclient = HttpClients.createDefault();
 		HttpGet request = new HttpGet("http://swapi.co/api/planets/"+IdCategoria.toString());
@@ -37,7 +37,7 @@ public class FilmesGetHttpClient {
 		return dados;
 	}
 	
-	public static Integer jsonQuantPlanetas(String IdCategoria) throws ClientProtocolException, IOException {
+	public static Integer jsonQuantPlanetas(Long IdCategoria) throws ClientProtocolException, IOException {
 		String dadosRequest = FilmesGetHttpClient.retornarDadosGetRequest(IdCategoria);
 		
 		JSONObject jsonObj = new JSONObject(dadosRequest);

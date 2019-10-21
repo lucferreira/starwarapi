@@ -19,8 +19,7 @@ public class Planeta {
 	
 	@Id
 	@Getter @Setter
-	@NonNull
-	private String idplaneta;
+	private Long idplaneta = 0L;
 	@Getter @Setter
 	@NonNull
 	private String nome;
@@ -33,6 +32,12 @@ public class Planeta {
 	@Nullable @Getter @Setter
 	private Integer qtdplanetas = 0;
 	
+	public Planeta(String nome, String clima, String terreno) {
+		this.nome = nome;
+		this.clima = clima;
+		this.terreno = terreno;
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -40,6 +45,7 @@ public class Planeta {
 		result = prime * result + ((idplaneta == null) ? 0 : idplaneta.hashCode());
 		return result;
 	}
+
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -56,14 +62,6 @@ public class Planeta {
 			return false;
 		return true;
 	}
-	
-//	public Planeta(String idplaneta, String nome, String clima, String terreno) {
-//		this.idplaneta = idplaneta;
-//		this.nome = nome;
-//		this.clima = clima;
-//		this.terreno = terreno;
-//	}
-	
 	
 	
 

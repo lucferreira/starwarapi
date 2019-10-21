@@ -3,8 +3,6 @@ package br.com.desafiob2w.starwarapi.resource;
 import java.io.IOException;
 import java.util.List;
 
-import javax.validation.Valid;
-
 import org.apache.http.client.ClientProtocolException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -30,16 +28,17 @@ public class PlanetaResource {
 	
 	@Autowired
 	private PlanetaService planetaService;
-
+	
 	@GetMapping("/id/{Id}")
 	@ApiOperation(value = "Consulta de planeta por Id")
-	public ResponseEntity<Planeta> consultarPlanetasId(@PathVariable String Id) throws ClientProtocolException, IOException{
+	public ResponseEntity<Planeta> consultarPlanetasId(@PathVariable Long Id) throws ClientProtocolException, IOException{
 		Planeta planeta = planetaService.buscarPlanetaPorId(Id);
 		if (planeta == null) {
 			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Planeta não encontrado com esse Id");
 		}
 		return ResponseEntity.ok(planeta);
 	}
+	
 	@GetMapping("/todos")
 	@ApiOperation(value = "Exibe todos os planetas")
 	public ResponseEntity<List<Planeta>> mostrarTodosOsPlanetas() throws ClientProtocolException, IOException{
@@ -49,6 +48,7 @@ public class PlanetaResource {
 		}
 		return ResponseEntity.ok(planetas);
 	}
+	
 	@GetMapping("/nome/{nome}")
 	@ApiOperation(value = "Consulta de planeta por Nome")
 	public ResponseEntity<Planeta> consultaPlanetaPorNome(@PathVariable String nome) throws ClientProtocolException, IOException{
@@ -59,20 +59,24 @@ public class PlanetaResource {
 		
 		return ResponseEntity.ok(planeta);
 	}
+	
 	@PostMapping("/novo")
 	@ApiOperation(value = "Incluir um novo planeta")
-	public ResponseEntity<Planeta> incluirNovoPlaneta(@Valid @RequestBody Planeta planeta) throws ClientProtocolException, IOException{
+	public ResponseEntity<Planeta> incluirNovoPlaneta(@RequestBody Planeta planeta) throws ClientProtocolException, IOException{
 		Planeta isPlaneta = planetaService.buscarPlanetaPorId(planeta.getIdplaneta());
 		if (isPlaneta != null) {
 			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Planeta já incluído");
 		}
-		Planeta novoPlaneta = planetaService.incluirNovoPlaneta(planeta);
-		return ResponseEntity.ok(novoPlaneta);
+		//IncrementaId ic = new IncrementaId();
+		Long num = getNext();
+		planeta.setIdplaneta(num);
+		planetaService.incluirNovoPlaneta(planeta);
+		return ResponseEntity.ok(planeta);
 	}
 	
 	@DeleteMapping("/{Id}")
 	@ApiOperation(value = "Exclui um planeta por Id")
-	public ResponseEntity<Planeta> excluirPlaneta(@PathVariable String Id) throws ClientProtocolException, IOException{
+	public ResponseEntity<Planeta> excluirPlaneta(@PathVariable Long Id) throws ClientProtocolException, IOException{
 		Planeta isPlaneta = planetaService.buscarPlanetaPorId(Id);
 		if (isPlaneta == null) {
 			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Planeta não encontrado");
@@ -80,5 +84,15 @@ public class PlanetaResource {
 		planetaService.excluirPlaneta(Id);
 		return ResponseEntity.ok().build();
 	}
+	
+	public long getNext() {
+		List<Planeta> planetas = planetaService.planetas();
+		if (planetas.size() == 0) {
+			return planetas.size() + 1L;
+		}
+		Long idUlt = planetas.get(planetas.size() - 1).getIdplaneta();
+		Long idSeq = idUlt + 1;
+        return idSeq;
+    }
 	
 }

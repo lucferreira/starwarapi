@@ -9,7 +9,7 @@ import br.com.desafiob2w.starwarapi.document.Planeta;
 
 public interface PlanetaService {
 	
-	public Planeta buscarPlanetaPorId(String id) throws ClientProtocolException, IOException;
+	public Planeta buscarPlanetaPorId(Long id) throws ClientProtocolException, IOException;
 	
 	public Planeta buscarPlanetaPorNome(String nome) throws ClientProtocolException, IOException;
 	
@@ -17,5 +17,7 @@ public interface PlanetaService {
 	
 	public Planeta incluirNovoPlaneta(Planeta planeta);
 	
-	public void excluirPlaneta(String id);
+	public void excluirPlaneta(Long id);
+	
+	public List<Planeta> planetas();
 }

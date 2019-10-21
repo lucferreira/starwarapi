@@ -17,13 +17,13 @@ public class FilmesGetHttpClientTest {
 	
 	@Test
 	public void buscaFilmesPorIdTest() throws ClientProtocolException, IOException {
-		String codigo = "1";
+		Long codigo = 1L;
 		assertFalse(FilmesGetHttpClient.retornarDadosGetRequest(codigo).isEmpty());
 	} 
 	
 	@Test(expected = RuntimeException.class)
 	public void buscaFilmesPorIdException() throws ClientProtocolException, IOException {
-		String codigo = "0";
+		Long codigo = null;
 		Assert.assertNotNull(FilmesGetHttpClient.retornarDadosGetRequest(codigo));
 	}
 

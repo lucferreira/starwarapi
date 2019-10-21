@@ -76,8 +76,8 @@ public class PlanetaResourceExibeTodosTest {
 	
 	public List<Planeta> planetas(){
 		List<Planeta> listaPlanetas = new ArrayList<>();
-		listaPlanetas.add(new Planeta("2","planeta2","clima2","terreno2",2));
-		listaPlanetas.add(new Planeta("1","planeta1","clima1","terreno1",5));
+		listaPlanetas.add(new Planeta(4L, "planeta2","clima2","terreno2",2));
+		listaPlanetas.add(new Planeta(4L, "planeta1","clima1","terreno1",5));
 		return listaPlanetas;
 	}
 	

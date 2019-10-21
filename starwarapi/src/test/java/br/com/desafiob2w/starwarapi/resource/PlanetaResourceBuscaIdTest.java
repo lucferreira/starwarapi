@@ -43,19 +43,20 @@ public class PlanetaResourceBuscaIdTest {
 	
 	@Test
 	public void buscaPlanetaPorIdTest() throws Exception {
-		String id = "1";
+		//String id = "1";
+		Long id = 1L;
 		when(planetaService.buscarPlanetaPorId(id)).thenReturn(this.planeta());
 		mockMvc.perform(get("/planeta/id/{Id}", id))
 		.andExpect(status().isOk())
 		.andExpect(content().contentType(MediaType.APPLICATION_JSON));
 		
-		verify(planetaService, times(1)).buscarPlanetaPorId("1");
+		verify(planetaService, times(1)).buscarPlanetaPorId(1L);
 	    verifyNoMoreInteractions(planetaService);
 	}
 	
 	@Test
 	public void buscaPlanetaPorIdTestNotFound() throws Exception{
-		String id = "1";
+		Long id = 1L;
 		when(planetaService.buscarPlanetaPorId(id)).thenReturn(null);
 		mockMvc.perform(get("/planeta/id/{Id}", "1")
 		.accept(MediaType.APPLICATION_JSON))
@@ -64,7 +65,7 @@ public class PlanetaResourceBuscaIdTest {
 	
 	@Test
 	public void buscaPlanetaPorIdTestMethodNotAllowed() throws Exception{
-		String id = "1";
+		Long id = 1L;
 		when(planetaService.buscarPlanetaPorId(id)).thenReturn(planeta());
 		mockMvc.perform(get("/planeta/id/")
 		.accept(MediaType.APPLICATION_JSON))
@@ -73,7 +74,7 @@ public class PlanetaResourceBuscaIdTest {
 	
 	public Planeta planeta() {
 		Planeta planeta = new Planeta(
-				"1", "planeta1", "clima", "terreno", 5);
+				1L, "planeta1", "clima", "terreno", 5);
 		return planeta;
 	}
 

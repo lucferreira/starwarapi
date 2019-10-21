@@ -56,7 +56,7 @@ public class PlanetaResourceBuscaNomeTest {
 	@Test
 	public void buscaPlanetaPorNomeTestNotFound() throws Exception{
 		String nome = "planeta1";
-		when(planetaService.buscarPlanetaPorId(nome)).thenReturn(null);
+		when(planetaService.buscarPlanetaPorNome(nome)).thenReturn(null);
 		mockMvc.perform(get("/planeta/nome/{nome}", "planeta1").accept(MediaType.APPLICATION_JSON))
         .andExpect(status().isNotFound());
 	}
@@ -64,14 +64,14 @@ public class PlanetaResourceBuscaNomeTest {
 	@Test
 	public void buscaPlanetaPorNomeTestMethodNotAllowed() throws Exception{
 		String nome = "planeta1";
-		when(planetaService.buscarPlanetaPorId(nome)).thenReturn(this.planeta());
+		when(planetaService.buscarPlanetaPorNome(nome)).thenReturn(this.planeta());
 		mockMvc.perform(get("/planeta/nome/").accept(MediaType.APPLICATION_JSON))
         .andExpect(status().isMethodNotAllowed());
 	}
 	
 	public Planeta planeta() {
 		Planeta planeta = new Planeta(
-				"1", "planeta1", "clima", "terreno", 5);
+				1L, "planeta1", "clima", "terreno", 5);
 		return planeta;
 	}
 

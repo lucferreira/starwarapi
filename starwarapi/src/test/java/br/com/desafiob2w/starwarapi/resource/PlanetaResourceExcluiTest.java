@@ -1,10 +1,10 @@
 package br.com.desafiob2w.starwarapi.resource;
 
+import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.verifyNoMoreInteractions;
+import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import org.junit.Before;
@@ -18,6 +18,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
+import br.com.desafiob2w.starwarapi.document.Planeta;
 import br.com.desafiob2w.starwarapi.service.PlanetaService;
 
 @SpringBootTest
@@ -37,27 +38,39 @@ public class PlanetaResourceExcluiTest {
 		MockitoAnnotations.initMocks(this);
 		mockMvc = MockMvcBuilders.standaloneSetup(planetaResource).build();
 	}
+	
 	@Test
 	public void excluirPlanetaPorId() throws Exception {
-		String Id = "1";
-		mockMvc.perform(delete("/planeta/{Id}", Id))
+		Long Id = 3L;
+		when(planetaService.buscarPlanetaPorId(Id)).thenReturn(this.planeta());
+		doNothing().when(planetaService).excluirPlaneta(Id);
+		mockMvc.perform(delete("/planeta/{Id}", 3L))
 				.andExpect(status().isOk());
-		
-		verify(planetaService, times(1)).excluirPlaneta("1");
-	    verifyNoMoreInteractions(planetaService);
+		verify(planetaService, times(1)).excluirPlaneta(3L);
 	}
 	
 	@Test
 	public void excluirPlanetaPorIdNotFound() throws Exception{
-		String Id = null;
-		mockMvc.perform(get("/planeta/{Id}", Id))
+		Long Id = null;
+		when(planetaService.buscarPlanetaPorId(null)).thenReturn(this.planeta());
+		doNothing().when(planetaService).excluirPlaneta(null);
+		mockMvc.perform(delete("/planeta/{Id}", Id))
         .andExpect(status().isNotFound());
 	}
 	
 	@Test
 	public void excluirPlanetaPorIdMettodNotAllowed() throws Exception{
-		mockMvc.perform(get("/planeta/"))
+		Long Id = 3L;
+		when(planetaService.buscarPlanetaPorId(Id)).thenReturn(this.planeta());
+		doNothing().when(planetaService).excluirPlaneta(Id);
+		mockMvc.perform(delete("/planeta/"))
         .andExpect(status().isNotFound());
+	}
+	
+	public Planeta planeta() {
+		Planeta planeta = new Planeta(
+				3L, "planeta3", "clima", "terreno", 1);
+		return planeta;
 	}
 
 }

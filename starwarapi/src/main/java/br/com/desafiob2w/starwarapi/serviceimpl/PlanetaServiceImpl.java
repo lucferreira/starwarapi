@@ -19,7 +19,7 @@ public class PlanetaServiceImpl implements PlanetaService{
 	private PlanetaRepository planetaRepository;
 
 	@Override
-	public Planeta buscarPlanetaPorId(String id) throws ClientProtocolException, IOException {
+	public Planeta buscarPlanetaPorId(Long id) throws ClientProtocolException, IOException {
 		Planeta planeta = planetaRepository.findByIdplaneta(id);
 		if(planeta == null) {
 			return planeta;
@@ -57,8 +57,15 @@ public class PlanetaServiceImpl implements PlanetaService{
 	}
 
 	@Override
-	public void excluirPlaneta(String id) {
-		planetaRepository.deleteById(id);
+	public void excluirPlaneta(Long id) {
+		planetaRepository.deleteByIdplaneta(id);
 	}
+
+	@Override
+	public List<Planeta> planetas() {
+		return planetaRepository.findAll();
+	}
+	
+	
 	
 }
